@@ -1,5 +1,5 @@
-# Multi-stage build for Spring Boot application
-FROM 3.9.11-eclipse-temurin-17 AS build
+# -------- Build Stage --------
+FROM maven:3.9.11-eclipse-temurin-17 AS build
 
 # Set working directory
 WORKDIR /app
@@ -12,7 +12,8 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests -B
 
-# Development stage
+
+# -------- Development Stage --------
 FROM openjdk:17-jre-slim AS development
 
 # Install development tools
@@ -26,7 +27,8 @@ COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080 5005
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
-# Production stage
+
+# -------- Production Stage --------
 FROM eclipse-temurin:17-jre AS production
 
 # Install only necessary tools for production
@@ -38,17 +40,12 @@ RUN apt-get update && \
 RUN groupadd -r spring && useradd -r -g spring spring
 
 WORKDIR /app
-
-# Copy jar from build stage
 COPY --from=build /app/target/*.jar app.jar
 
 # Set proper ownership
 RUN chown -R spring:spring /app
-
-# Switch to non-root user
 USER spring
 
-# Expose port
 EXPOSE 8080
 
 # Health check
@@ -58,6 +55,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
 # JVM optimization for containers
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -XX:+UseG1GC -XX:+UseStringDeduplication"
 
-# Run the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
-
