@@ -27,7 +27,7 @@ EXPOSE 8080 5005
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
 # Production stage
-FROM openjdk:17-jre-slim AS production
+FROM eclipse-temurin:17-jre AS production
 
 # Install only necessary tools for production
 RUN apt-get update && \
