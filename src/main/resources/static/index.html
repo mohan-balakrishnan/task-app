@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management API</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .api-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .api-link {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        .api-link:hover {
+            background: #0056b3;
+        }
+        .status {
+            text-align: center;
+            padding: 20px;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Task Management API</h1>
+
+        <div class="status">
+            ✅ API is running successfully!
+        </div>
+
+        <div class="info">
+            <h3>📋 Available Endpoints</h3>
+            <div class="api-links">
+                <a href="/api/actuator/health" class="api-link">Health Check</a>
+                <a href="/api/swagger-ui.html" class="api-link">API Documentation</a>
+                <a href="/api/actuator/info" class="api-link">Application Info</a>
+                <a href="/api/actuator/metrics" class="api-link">Metrics</a>
+            </div>
+        </div>
+
+        <div class="info">
+            <h3>🔐 Authentication</h3>
+            <p><strong>Default Users:</strong></p>
+            <ul>
+                <li><strong>Admin:</strong> username: <code>admin</code>, password: <code>password</code></li>
+                <li><strong>User:</strong> username: <code>johndoe</code>, password: <code>password</code></li>
+            </ul>
+            <p><strong>Login Endpoint:</strong> <code>POST /api/auth/signin</code></p>
+        </div>
+
+        <div class="info">
+            <h3>📚 Documentation</h3>
+            <p>Complete API documentation is available at:</p>
+            <ul>
+                <li><a href="/api/swagger-ui.html">Swagger UI</a> - Interactive API documentation</li>
+                <li><a href="/api/api-docs">OpenAPI JSON</a> - Machine-readable API specification</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>🛠️ Quick Start</h3>
+            <p>1. <strong>Login:</strong> POST to <code>/api/auth/signin</code> with credentials</p>
+            <p>2. <strong>Get Token:</strong> Use the returned JWT token in Authorization header</p>
+            <p>3. <strong>Access APIs:</strong> All protected endpoints require: <code>Authorization: Bearer {token}</code></p>
+        </div>
+
+        <div class="info">
+            <h3>🔗 Main API Endpoints</h3>
+            <ul>
+                <li><code>POST /api/auth/signin</code> - User authentication</li>
+                <li><code>GET /api/tasks</code> - Get user tasks</li>
+                <li><code>POST /api/tasks</code> - Create new task</li>
+                <li><code>GET /api/categories</code> - Get user categories</li>
+                <li><code>GET /api/users/profile</code> - Get user profile</li>
+                <li><code>GET /api/admin/users</code> - Admin: Manage users</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; color: #666;">
+            <p>Task Management System v1.0.0</p>
+            <p>Built with Spring Boot 3.2.0 & Java 17</p>
+        </div>
+    </div>
+</body>
+</html>

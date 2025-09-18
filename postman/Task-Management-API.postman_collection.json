@@ -1,0 +1,268 @@
+{
+    "info": {
+        "name": "Task Management API - Production Ready",
+        "description": "Complete API collection for production-ready Task Management System",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "version": "1.0.0"
+    },
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{access_token}}",
+                "type": "string"
+            }
+        ]
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8080/api",
+            "type": "string"
+        },
+        {
+            "key": "access_token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "refresh_token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "user_id",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "🔐 Authentication",
+            "item": [
+                {
+                    "name": "Login Admin",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "    const response = pm.response.json();",
+                                    "    pm.collectionVariables.set('access_token', response.accessToken);",
+                                    "    pm.collectionVariables.set('refresh_token', response.refreshToken);",
+                                    "    pm.collectionVariables.set('user_id', response.user.id);",
+                                    "    pm.test('✅ Admin login successful', () => {",
+                                    "        pm.expect(response.accessToken).to.not.be.empty;",
+                                    "        pm.expect(response.user.role).to.equal('ADMIN');",
+                                    "    });",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"password\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/signin",
+                            "host": ["{{base_url}}"],
+                            "path": ["auth", "signin"]
+                        }
+                    }
+                },
+                {
+                    "name": "Login User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"username\": \"johndoe\",\n    \"password\": \"password\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/signin",
+                            "host": ["{{base_url}}"],
+                            "path": ["auth", "signin"]
+                        }
+                    }
+                },
+                {
+                    "name": "Register User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"username\": \"newuser\",\n    \"email\": \"newuser@example.com\",\n    \"password\": \"password123\",\n    \"firstName\": \"New\",\n    \"lastName\": \"User\",\n    \"role\": \"USER\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/signup",
+                            "host": ["{{base_url}}"],
+                            "path": ["auth", "signup"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "📋 Tasks",
+            "item": [
+                {
+                    "name": "Get All Tasks",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/tasks?page=0&size=10&sortBy=createdAt&sortDir=desc",
+                            "host": ["{{base_url}}"],
+                            "path": ["tasks"],
+                            "query": [
+                                {"key": "page", "value": "0"},
+                                {"key": "size", "value": "10"},
+                                {"key": "sortBy", "value": "createdAt"},
+                                {"key": "sortDir", "value": "desc"}
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Task",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"New Production Task\",\n    \"description\": \"Task created via production API\",\n    \"status\": \"PENDING\",\n    \"priority\": \"HIGH\",\n    \"dueDate\": \"2025-10-01\",\n    \"categoryId\": 1,\n    \"labels\": [\"production\", \"api-test\"]\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/tasks",
+                            "host": ["{{base_url}}"],
+                            "path": ["tasks"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Task Statistics",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/tasks/stats",
+                            "host": ["{{base_url}}"],
+                            "path": ["tasks", "stats"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🏷️ Categories",
+            "item": [
+                {
+                    "name": "Get All Categories",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/categories",
+                            "host": ["{{base_url}}"],
+                            "path": ["categories"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Category",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Production Category\",\n    \"description\": \"Category for production tasks\",\n    \"color\": \"#FF6B35\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/categories",
+                            "host": ["{{base_url}}"],
+                            "path": ["categories"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "👤 User Profile",
+            "item": [
+                {
+                    "name": "Get Profile",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/users/profile",
+                            "host": ["{{base_url}}"],
+                            "path": ["users", "profile"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🛠️ Admin",
+            "item": [
+                {
+                    "name": "Get All Users",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/admin/users",
+                            "host": ["{{base_url}}"],
+                            "path": ["admin", "users"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🏥 Health",
+            "item": [
+                {
+                    "name": "Health Check",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/actuator/health",
+                            "host": ["{{base_url}}"],
+                            "path": ["actuator", "health"]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

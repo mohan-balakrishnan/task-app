@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  task-management-api:
+    build:
+      target: development
+    environment:
+      SPRING_DEVTOOLS_RESTART_ENABLED: true
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: true
+      LOGGING_LEVEL_COM_TASKMANAGEMENT: DEBUG
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
+      SPRING_PROFILES_ACTIVE: development
+    ports:
+      - "8080:8080"
+      - "5005:5005"  # Debug port
+    volumes:
+      - ./src:/app/src:ro
+      - ~/.m2:/root/.m2:cached
+    command: ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "app.jar"]
+
+  mysql-db:
+    ports:
+      - "3306:3306"  # Standard MySQL port for development
+    environment:
+      MYSQL_ROOT_PASSWORD: devpassword
+      MYSQL_PASSWORD: devpassword
+
+  nginx:
+    ports:
+      - "3000:80"  # Different port for development
