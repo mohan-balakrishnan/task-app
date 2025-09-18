@@ -18,7 +18,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <junit.version>5.10.0</junit.version>
+        <!-- <junit.version>5.10.0</junit.version> -->
         <testcontainers.version>1.19.0</testcontainers.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
