@@ -8,9 +8,9 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: task_management
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
-      MYSQL_USER: ${MYSQL_USER:-taskuser}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-taskpassword}
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-rootpassword}"
+      MYSQL_USER: "${MYSQL_USER:-taskuser}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-taskpassword}"
     ports:
       - "${MYSQL_PORT:-3307}:3306"
     volumes:
@@ -36,35 +36,35 @@ services:
     restart: unless-stopped
     environment:
       # Database Configuration
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/task_management?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-taskuser}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-taskpassword}
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
-
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql-db:3306/task_management?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+      SPRING_DATASOURCE_USERNAME: "${MYSQL_USER:-taskuser}"
+      SPRING_DATASOURCE_PASSWORD: "${MYSQL_PASSWORD:-taskpassword}"
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: "com.mysql.cj.jdbc.Driver"
+      
       # JPA Configuration
-      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
-      SPRING_JPA_SHOW_SQL: false
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
-      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: false
-
+      SPRING_JPA_HIBERNATE_DDL_AUTO: "validate"
+      SPRING_JPA_SHOW_SQL: "false"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.MySQLDialect"
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: "false"
+      
       # JWT Configuration
-      JWT_SECRET: ${JWT_SECRET:-taskManagementProductionSecretKeyThatIsVeryLongAndSecureForProduction123456789}
-      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
-      JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION:-604800000}
-
+      JWT_SECRET: "${JWT_SECRET:-taskManagementProductionSecretKeyThatIsVeryLongAndSecureForProduction123456789}"
+      JWT_EXPIRATION: "${JWT_EXPIRATION:-86400000}"
+      JWT_REFRESH_EXPIRATION: "${JWT_REFRESH_EXPIRATION:-604800000}"
+      
       # Application Configuration
-      SERVER_PORT: 8080
-      SERVER_SERVLET_CONTEXT_PATH: /api
-      SPRING_PROFILES_ACTIVE: production
-
+      SERVER_PORT: "8080"
+      SERVER_SERVLET_CONTEXT_PATH: "/api"
+      SPRING_PROFILES_ACTIVE: "production"
+      
       # Logging
-      LOGGING_LEVEL_COM_TASKMANAGEMENT: INFO
-      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: WARN
-      LOGGING_LEVEL_ROOT: WARN
-
+      LOGGING_LEVEL_COM_TASKMANAGEMENT: "INFO"
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: "WARN"
+      LOGGING_LEVEL_ROOT: "WARN"
+      
       # Actuator
-      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info,metrics
-      MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: when-authorized
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,metrics"
+      MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: "when-authorized"
     ports:
       - "${API_PORT:-8080}:8080"
     depends_on:
